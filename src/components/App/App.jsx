@@ -1,16 +1,25 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework Image-Finder
-    </div>
-  );
-};
+import { ImageGallery } from "components/ImageGallery/ImageGallery";
+import { Searchbar } from "components/Searchbar/Searchbar";
+import React, {Component} from "react";
+
+class App extends Component {
+  state = {}
+
+  render() {
+    console.log()
+
+    return (
+      
+      <>
+        <Searchbar></Searchbar>
+        <ImageGallery />
+        React homework Image-Finder
+      </>
+    )
+  }
+}
+
+export default App;
+
+
+
