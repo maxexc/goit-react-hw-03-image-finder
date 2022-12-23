@@ -1,4 +1,6 @@
-// import PropTypes from 'prop-types';
+// import { GalleryItem } from './ImageGalleryItem.styled';
+import './ImageGalleryItem.css';
+import PropTypes from 'prop-types';
 
 // export const ImageGalleryItem = () => (
 //     <li className="gallery-item">
@@ -8,9 +10,10 @@
 
 export const ImageGalleryItem = ({ images }) => {
   return images.map((image) => (
-      <li key={image.id}>
-        <a href={image.largeImageURL}>
+      <li className="photo-card" key={image.id}>
+        <a className="img-wrap" href={image.largeImageURL}>
           <img
+          className='image'
           src={image.webformatURL}
           alt={image.tags}
           // onClick={() => onSelect(image.largeImageURL, image.tags)}
@@ -21,8 +24,13 @@ export const ImageGalleryItem = ({ images }) => {
   ));
 };
 
-  // ImageGalleryItem.propTypes = {
-  //   largeImageURL: PropTypes.string,
-  //   webformatURL: PropTypes.string,
-  //   tags: PropTypes.string,
-  // };
+ImageGalleryItem.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+    })
+  ),
+};

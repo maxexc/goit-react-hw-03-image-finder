@@ -1,10 +1,16 @@
 import { ImageGallery } from "components/ImageGallery/ImageGallery";
 import { Searchbar } from "components/Searchbar/Searchbar";
 import { Component } from "react";
-import { getImages } from '../../services/ApiService'
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { getImagesApi } from '../../services/ApiService'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import Loader from "components/Loader/Loader";
+import Button from "components/Button/Button";
+import Container from './App.styled';
+
+
 
 export class App extends Component {
   state = {
@@ -13,8 +19,8 @@ export class App extends Component {
     page: 1,  
     totalPages: null,
     loading: false,
-    selectedImg: null,
-    modalImgAlt: '',
+    // selectedImg: null,
+    // modalImgAlt: '',
   };
 
   simpleLightbox = () => {
@@ -27,11 +33,16 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { query, page, totalPages, images } = this.state;
-    this.simpleLightbox();      
+    this.simpleLightbox(); 
+    console.log('prevState.page: ', prevState.page);
+    console.log('this.state.page: ', this.state.page);
+
+    console.log('prevState.query: ', prevState.query);
+    console.log('this.state.query: ', this.state.query);         
 
     if (prevState.page !== page && page !== 1) {
       this.setState({ loading: true });
-      const res = await getImages(query, page);
+      const res = await getImagesApi(query, page);
       console.log(res);
 
       this.setState(({ images }) => ({
@@ -42,8 +53,8 @@ export class App extends Component {
       setTimeout(() => this.scroll(), 1);
     }
 
-    if (page >= totalPages && images !== prevState.images) {
-      Notify.warning(
+    if (page >= totalPages && images !== prevState.images && images === [] ) {
+      toast.warning(
         "We're sorry, but you've reached the end of search results."
       );
     }
@@ -56,19 +67,21 @@ export class App extends Component {
     const page = 1;
 
     if (value === '') {
-      Notify.warning("You didn't enter anything!");
+      toast.success('Please, enter another search value!');
+      this.setState({ images: [] });
       return;
     }
 
     this.setState({ loading: true });
-    const res = await getImages(value, page);
+    const res = await getImagesApi(value, page);
     console.log(res);
     this.setState({ loading: false });
 
     if (res.hits.length === 0) {
-      Notify.failure(
+      toast.success(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      this.setState({ images: [] });
       return;
     }
 
@@ -82,7 +95,19 @@ export class App extends Component {
     });
   };  
 
- 
+  loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,      
+    }));
+  };
+
+  scroll = () => {
+    const { clientHeight } = document.documentElement;
+    window.scrollBy({
+      top: clientHeight - 180,
+      behavior: 'smooth',
+    });
+  }; 
 
   // selectImg = (imgUrl, altTag) => {
   //   this.setState({ selectedImg: imgUrl, modalImgAlt: altTag });
@@ -96,24 +121,27 @@ export class App extends Component {
   // };
 
   render() {
-    // const { images, selectedImg, modalImgAlt } = this.state;
-    const { images } = this.state;
+    const { images, loading, totalPages, page } = this.state;
+    const checkEndList = page < totalPages;
+    const checkGalleryImg = images.length !== 0;
+    
 
     return (
-      <>
+      <Container>
         <Searchbar onSubmit={this.onSubmit} />
-        <ImageGallery
+        {checkGalleryImg && <ImageGallery
               images={images}
               // onSelect={this.selectImg}
-        ></ImageGallery>  
-      </>
+        ></ImageGallery> } 
+        {loading ? (
+          <Loader />
+        ) : (
+          checkGalleryImg && checkEndList && <Button onClick={this.loadMore} />
+        )}
+        <ToastContainer autoClose={2000} position="top-center" theme="light" />
+      </Container>
     )
   }
-
-
-  
-
-
 }
   
 
