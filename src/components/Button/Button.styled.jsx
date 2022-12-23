@@ -10,7 +10,7 @@ export const ButtonLoadMore = styled.button`
   display: inline-block;
   color: #fff;
   border: 0;
-  /* text-decoration: none; */
+  text-decoration: none;
   cursor: pointer;
   font-family: inherit;
   font-size: 18px;

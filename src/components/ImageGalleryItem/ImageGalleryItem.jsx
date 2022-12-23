@@ -1,12 +1,5 @@
-// import { GalleryItem } from './ImageGalleryItem.styled';
 import './ImageGalleryItem.css';
 import PropTypes from 'prop-types';
-
-// export const ImageGalleryItem = () => (
-//     <li className="gallery-item">
-//         <img src="" alt="" />
-//     </li>
-// )
 
 export const ImageGalleryItem = ({ images }) => {
   return images.map((image) => (
@@ -16,7 +9,6 @@ export const ImageGalleryItem = ({ images }) => {
           className='image'
           src={image.webformatURL}
           alt={image.tags}
-          // onClick={() => onSelect(image.largeImageURL, image.tags)}
           loading="lazy"
           />
         </a>
