@@ -3,11 +3,11 @@ import {GalleryList} from './ImageGallery.styled'
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, onSelect }) => {
   return (
     <div className="gallery">
       <GalleryList>     
-          <ImageGalleryItem images={images} />
+          <ImageGalleryItem images={images} onSelect={onSelect} />
       </GalleryList>
     </div>
   );
