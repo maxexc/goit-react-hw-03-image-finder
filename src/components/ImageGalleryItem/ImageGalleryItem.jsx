@@ -13,31 +13,30 @@ import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = ({ images, onSelect }) => {
   return images.map((image) => (
-      <GalleryItem className="photo-card" key={image.id}>        
+      <GalleryItem key={image.id}>        
           <GalleryImage
-          className='image'
           src={image.webformatURL}
           alt={image.tags}
           onClick={() => onSelect(image.largeImageURL, image.tags)}
           loading="lazy"
           />
-          <GalleryInfo class='info'>
-            <GalleryInfoItem class='info__item'>
+          <GalleryInfo >
+            <GalleryInfoItem >
               <b>Likes</b>
               <FcLike style={{ width: 14, height: 14 }} />              
               {image.likes}
             </GalleryInfoItem>
-            <GalleryInfoItem class='info__item'>
+            <GalleryInfoItem >
               <b>Views</b>
               <ImEye style={{ width: 14, height: 14, color: "lightgreen"}} />              
               {image.views}
             </GalleryInfoItem>
-            <GalleryInfoItem class='info__item'>
+            <GalleryInfoItem >
               <b>Comments</b>
               <FaComments style={{ width: 14, height: 14, color: "lightblue"}} />              
               {image.comments}
             </GalleryInfoItem>
-            <GalleryInfoItem class='info__item'>
+            <GalleryInfoItem >
               <b>Downloads</b>
               <MdOutlineFileDownload style={{ width: 14, height: 14, color: "yellow"}} />              
               {image.downloads}
